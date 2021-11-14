@@ -2,7 +2,7 @@ IDIR=include
 CC=gcc
 WARNINGS= -Wall -Wextra -Wshadow -Wswitch-enum -Wstack-protector -Wdate-time -Walloc-zero -Walloca -Wimplicit-function-declaration
 LIBS=-lm -lulfius 
-CFLAGS=-I$(IDIR) -D_XOPEN_SOURCE_EXTENDED $(WARNINGS) $(LIBS)
+CFLAGS=-I$(IDIR) -D_XOPEN_SOURCE_EXTENDED $(LIBS)
 
 ODIR=src
 LDIR =/usr/local/lib
@@ -11,15 +11,15 @@ LDIR =/usr/local/lib
 _DEPS = *.h
 DEPS = $(patsubst %,$(IDIR)/%,$(_DEPS))
 
-_OBJ =main.o get_endpoints,o
+_OBJ =main.o endpoints.o
 OBJ = $(patsubst %,$(ODIR)/%,$(_OBJ))
 
 
 $(ODIR)/%.o: %.c $(DEPS)
-	$(CC) -c -o $@ $< $(CFLAGS) 
+	$(CC) $(WARNINGS) -c -o $@ $< $(CFLAGS) 
 
 WorkHorse: $(OBJ)
-	$(CC) -o $@ $^ $(CFLAGS) 
+	$(CC) $(WARNINGS) -o $@ $^ $(CFLAGS) 
 debug: CFLAGS += -DDEBUG -g
 debug: WorkHorse
 
