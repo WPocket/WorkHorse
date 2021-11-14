@@ -11,7 +11,7 @@ LDIR =/usr/local/lib
 _DEPS = *.h
 DEPS = $(patsubst %,$(IDIR)/%,$(_DEPS))
 
-_OBJ =main.o
+_OBJ =main.o get_endpoints,o
 OBJ = $(patsubst %,$(ODIR)/%,$(_OBJ))
 
 

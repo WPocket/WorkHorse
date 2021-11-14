@@ -4,6 +4,8 @@
 
 #include <stdio.h>
 
+#include "get_endpoints.h"
+
 #define PORT 8080
 
 int main(void) {
@@ -13,4 +15,8 @@ int main(void) {
     fprintf(stderr, "Error ulfius_init_instance, abort");
     return (1);
   }
+
+  register_config(&instance);
 }
+
+void register_config(struct _u_instance *instance) {}
