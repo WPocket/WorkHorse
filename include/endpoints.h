@@ -25,6 +25,7 @@ typedef struct {
 
 Endpoint * map_request(const struct _u_map * map);
 Endpoint * map_kv_set(KVSet * set);
+void map_header_values(struct _u_map *map);
 
 int post_endpoint(const struct _u_request * request, struct _u_response * response, void * user_data);
 

@@ -13,6 +13,7 @@ Endpoint *map_request(const struct _u_map *map) {
   KV *temp_kv_pair;
   KVSet *kv_set = malloc(sizeof(KVSet));
   kv_set->count = 0;
+  printf("body_count: %d\n", map->nb_values);
 
   keys = u_map_enum_keys(map);
   for (int i = 0; keys[i] != NULL; i++) {
@@ -86,10 +87,17 @@ Endpoint *map_kv_set(KVSet *set) {
   return return_me;
 }
 
+void map_header_values(struct _u_map *map){
+    int count = map->nb_values;
+    for(int i = 0; i < count; i++){
+        printf("key: %s, value: %s \n", map->keys[i], map->values[i]);
+    }
+}
+
 int post_endpoint(const struct _u_request *request,
                   struct _u_response *response, void *user_data) {
-  printf("url path: %s\n", request->url_path);
-  printf("body_count: %d\n", request->map_post_body->nb_values);
+  //printf("url path: %s\n", request->url_path);
+  map_header_values(request->map_header);
   Endpoint *end = map_request(request->map_post_body);
   char *response_body;
   if (strcmp(end->ip, "none") == 0) {
