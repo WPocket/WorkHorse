@@ -3,6 +3,7 @@
 #include <ulfius.h>
 
 #include <stdio.h>
+#include <string.h>
 
 #include "endpoints.h"
 
@@ -20,26 +21,29 @@ int main(int argc, char **argv) {
 
   register_config(&instance);
   // Start the framework
-  
+
   ret = ulfius_start_framework(&instance);
 
   if (ret == U_OK) {
-    printf("Start %sframework on port %d", ((argc == 4 && strcmp("-secure", argv[1]) == 0)?"secure ":""), instance.port);
-    
+    printf("Start %sframework on port %d",
+           ((argc == 4 && strcmp("-secure", argv[1]) == 0) ? "secure " : ""),
+           instance.port);
+
     // Wait for the user to press <enter> on the console to quit the application
     getchar();
   } else {
     printf("Error starting framework");
   }
   printf("End framework");
-  
+
   ulfius_stop_framework(&instance);
   ulfius_clean_instance(&instance);
-  
+
   return 0;
 }
 
 void register_config(struct _u_instance *instance) {
-  
-  ulfius_add_endpoint_by_val(instance, "POST", "/post", NULL, 0, &post_endpoint, NULL);
+
+  ulfius_add_endpoint_by_val(instance, "POST", "/post", NULL, 0, &post_endpoint,
+                             NULL);
 }
