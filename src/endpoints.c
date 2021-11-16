@@ -110,7 +110,7 @@ void print_mapped_values(struct _u_map *map) {
     printf("key: %s, value: %s \n", map->keys[i], map->values[i]);
   }
 }
-
+// TODO could probably use recursion for this later
 void print_json_kvs(json_t *json) {
   printf("printing json\n");
   if (json == NULL) {
@@ -124,7 +124,26 @@ void print_json_kvs(json_t *json) {
     json_t *value;
     json_object_foreach(json, key, value) {
       if (value->type > 1) {
-        printf("key:  %s \nValue: %s \n", key, json_string_value(value));
+        switch (value->type) {
+        case JSON_STRING:
+          printf("key:  %s \nValue: %s \n", key, json_string_value(value));
+          break;
+        case JSON_INTEGER:
+          printf("key:  %s \nValue: %lld\n", key, json_integer_value(value));
+          break;
+        case JSON_REAL:
+          printf("key:  %s \nValue: %f \n", key, json_real_value(value));
+          break;
+        case JSON_TRUE:
+          printf("key:  %s \nValue: %d \n", key, json_is_true(value));
+          break;
+        case JSON_FALSE:
+          printf("key:  %s \nValue: %d \n", key, json_is_false(value));
+          break;
+        default:
+          printf("key:  %s \nValue: NULL/Object/Array\n", key);
+          break;
+        }
       }
     }
   }
