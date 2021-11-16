@@ -40,6 +40,7 @@ typedef struct {
 Endpoint * map_request(const struct _u_map * map);
 Endpoint * map_kv_set(KVSet * set);
 void print_mapped_values(struct _u_map *map);
+void print_json_kvs(json_t *json);
 
 int post_endpoint(const struct _u_request * request, struct _u_response * response, void * user_data);
 

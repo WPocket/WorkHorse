@@ -1,7 +1,7 @@
 IDIR=include
 CC=gcc
 WARNINGS= -Wall -Wextra -Wshadow -Wswitch-enum -Wstack-protector -Wdate-time -Walloc-zero -Walloca -Wimplicit-function-declaration
-LIBS=-lm -lulfius 
+LIBS=-lm -lulfius -ljansson 
 CFLAGS=-I$(IDIR) -D_XOPEN_SOURCE_EXTENDED $(LIBS)
 
 ODIR=src
