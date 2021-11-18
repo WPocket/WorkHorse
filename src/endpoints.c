@@ -15,13 +15,24 @@ Endpoint *json_to_endpoint(json_t *json) {
   }
   // map it into an endpoint
   Endpoint *endpt = malloc(sizeof(Endpoint));
-  const char *key;
-  json_t *value;
-  json_object_foreach(json, key, value) {
-    if (json->type == JSON_STRING) {
-      // something with string
-      printf("key: %s \n Value: %s \n", key, json_string_value(value));
+  json_t *value = json_object_get(json, "ip");
+  if (value == NULL) {
+    printf("value is null\n");
+    return NULL;
+
+  } else if (value->type != JSON_STRING) {
+
+    printf("value is not a string\n");
+    return NULL;
+  } else {
+    endpt->ip = strdup(json_string_value(value));
+    if (endpt->ip == NULL) {
+      goto free_endpt;
     }
+    return endpt;
+  free_endpt:
+    free(endpt);
+    return NULL;
   }
 }
 // TODO this takes values in x-www-form-urlencoded make this use json
@@ -38,22 +49,23 @@ int post_endpoint(const struct _u_request *request,
   printf("url path: %s\n", request->url_path);
   json_error_t *error = NULL;
   json_t *json = ulfius_get_json_body_request(request, error);
+  char *response_body;
   if (error == NULL) {
-    json_to_endpoint(json);
-  } else {
+    Endpoint *endpt = json_to_endpoint(json);
+    if (endpt == NULL) {
+      goto endpt_null;
+    }
+    printf("the value of ip is: %s\n", endpt->ip);
+    response_body = strdup(endpt->ip);
+
+  } else if (error != NULL) {
     printf("error occurred: %s", error->text);
+    response_body = "json error";
+  } else {
+  endpt_null:
+    response_body = "error";
   }
 
-  // Endpoint *end = map_request(request->map_post_body);
-  char *response_body;
-  /*if (strcmp(end->ip, "none") == 0)
-  {
-    response_body = "bad post request";
-  }*/
-  // else
-  //{
-  response_body = "done";
-  //}
   ulfius_set_string_body_response(response, 200, response_body);
   return U_CALLBACK_CONTINUE;
 }
