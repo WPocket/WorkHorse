@@ -106,6 +106,7 @@ int post_endpoint(const struct _u_request *request,
     }
     // print the endpoint
     print_endpoint(endpt);
+    // do a post request.
 
   } else if (error != NULL) {
     printf("error occurred: %s", error->text);
@@ -118,3 +119,5 @@ int post_endpoint(const struct _u_request *request,
   ulfius_set_string_body_response(response, 200, response_body);
   return U_CALLBACK_CONTINUE;
 }
+
+bool send_data(Endpoint *endpt) { return false; }

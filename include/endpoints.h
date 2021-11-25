@@ -38,6 +38,7 @@ typedef struct {
 } KVSet;
 
 Endpoint * json_to_endpoint(json_t *json);
+void print_endpoint(Endpoint* endpoint);
 
 int post_endpoint(const struct _u_request * request, struct _u_response * response, void * user_data);
 
