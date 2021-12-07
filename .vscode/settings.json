@@ -1,6 +1,0 @@
-{
-    "files.associations": {
-        "*.S": "asm",
-        "endpoints.h": "c"
-    }
-}
