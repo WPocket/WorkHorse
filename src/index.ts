@@ -1,12 +1,54 @@
 import express from "express";
+import { Endpoint } from "./endpoint";
 const app = express();
-const port = 8080; // default port to listen
+const PORT = 8080; // default port to listen
+const DB_INDEX = -1;
+const EGAD = "http://127.0.0.1:8080/";
+const TABLE_NAME = "endpoints";
 
-// define a route handler for the default home page
-// app.get("/", (req: Request) => {});
+// get a post request on url /endpoint/add that will add a new endpoint
+app.post("/endpoint/add", (req, res) => {
+    const body = req.body;
+    try{
+        const endpoint: Endpoint = {
+            ip: body.ip,
+            name: body.name,
+            port: body.port,
+            cores: body.cores? body.cores : 0,
+            frequency: body.frequency? body.frequency : 0,
+            memory: body.memory? body.memory : 0,
+            disk: body.disk? body.disk : 0,
+            bandwidth: body.bandwidth? body.bandwidth : 0
+        };
+        // make an api post request to EGAD with the endpoint
+        const url:RequestInfo = EGAD + "endpoint/add";
+        fetch(url, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(endpoint)
+        });
+        res.send(endpoint);
+    }catch(e){
+        // tslint:disable-next-line:no-console
+        console.log("error encountered: " + e);
+        res.statusCode = 400;
+        const err = {
+            message: "error encountered",
+            error_message: e.message
+        }
+        res.send(JSON.stringify(err));
+    }
+
+
+
+});
+
+
 
 // start the Express server
-app.listen(port, () => {
+app.listen(PORT, () => {
   // tslint:disable-next-line:no-console
-  console.log(`server started at http://localhost:${port}`);
+  console.log(`server started at http://localhost:${PORT}`);
 });
