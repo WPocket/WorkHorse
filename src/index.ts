@@ -2,8 +2,9 @@ import express from "express";
 import { Endpoint } from "./endpoint";
 const app = express();
 const PORT = 8080; // default port to listen
+const EGAD_PORT = 3360;
 const DB_INDEX = -1;
-const EGAD = "http://127.0.0.1:8080/";
+const EGAD = "http://10.16.40.201" + ":" + EGAD_PORT + "/";
 const TABLE_NAME = "endpoints";
 
 // get a post request on url /endpoint/add that will add a new endpoint
